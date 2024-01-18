@@ -1,0 +1,31 @@
+name: 'Change Management'
+description: 'Scan the pr'
+runs:
+  using: "composite"
+  steps:
+    - name: Create directory for plan files if not present
+      shell: bash
+      run: |
+        if [[ -d "${{ inputs.tf_plan_directory }}" ]]; then
+          echo "Directory already exist"
+        else
+          mkdir ${{ inputs.tf_plan_directory }}
+        fi
+
+    - name: Install spacectl
+    uses: spacelift-io/setup-spacectl@main
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Deploy infrastructure
+      env:
+        SPACELIFT_API_KEY_ENDPOINT: https://darkmoon.app.spacelift.io
+        SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
+        SPACELIFT_API_KEY_SECRET: ${{ secrets.SPACELIFT_API_KEY_SECRET }}
+      run: spacectl stack list
+
+    - name: Evaluate Code With Resourcely Guardrails
+      shell: bash
+      if: success()
+      run: |
+        echo 123
