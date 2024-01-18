@@ -1,5 +1,4 @@
 name: 'Change Management'
-description: 'Scan the pr'
 
 on:
   pull_request:
@@ -19,9 +18,9 @@ jobs:
           fi
 
       - name: Install spacectl
-      uses: spacelift-io/setup-spacectl@main
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: spacelift-io/setup-spacectl@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy infrastructure
         env:
