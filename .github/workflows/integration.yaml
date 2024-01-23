@@ -8,14 +8,6 @@ jobs:
   resourcely-ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Create directory for plan files if not present
-        shell: bash
-        run: |
-          if [[ -d "${{ inputs.tf_plan_directory }}" ]]; then
-            echo "Directory already exist"
-          else
-            mkdir ${{ inputs.tf_plan_directory }}
-          fi
 
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
